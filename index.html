@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Globalization of Foods - Interactive Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f7f4; /* Soft green-beige background like the screenshot */
+        }
+        .cert-font {
+            font-family: 'Playfair Display', serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom Radio Button styling for a cleaner look */
+        .custom-radio:checked + div {
+            border-color: #22c55e;
+            background-color: #f0fdf4;
+        }
+        .custom-radio:checked + div .radio-dot {
+            background-color: #22c55e;
+            border-color: #22c55e;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Screen 1: Login -->
+    <div id="login-screen" class="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] w-full max-w-md overflow-hidden fade-in border-t-[12px] border-green-500">
+        <div class="p-8 text-center">
+            
+            <!-- Header Text -->
+            <p class="text-green-600 font-bold tracking-widest text-[11px] uppercase mb-3">Reading 8 / Food Around the World</p>
+            <h1 class="text-3xl font-extrabold text-slate-800 mb-3 tracking-tight">Globalization of Foods</h1>
+            <p class="text-slate-500 text-sm mb-6">Reading comprehension | Interactive Worksheet</p>
+            
+            <hr class="border-gray-100 mb-8">
+            
+            <!-- Emojis -->
+            <div class="text-5xl mb-6 space-x-3 drop-shadow-sm">
+                🍕 🌯 🥤
+            </div>
+
+            <!-- Welcome Message -->
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Welcome Students!</h2>
+            <p class="text-slate-500 text-sm mb-8 leading-relaxed">Read the text carefully, then enter your name to start the quiz.</p>
+
+            <!-- Input Area -->
+            <div class="text-left mb-8">
+                <label for="studentName" class="block text-sm font-bold text-slate-700 mb-3">Student Name:</label>
+                <input type="text" id="studentName" placeholder="Type your full name here..." class="w-full px-5 py-4 rounded-xl border-2 border-gray-200 focus:border-green-500 focus:ring-4 focus:ring-green-50 outline-none transition-all text-slate-700 font-medium text-lg placeholder:text-gray-400" required>
+                <p id="nameError" class="text-red-500 text-sm font-medium mt-2 hidden">Please enter your name to start!</p>
+            </div>
+            
+            <!-- Button -->
+            <button onclick="startQuiz()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold text-lg py-4 px-4 rounded-xl transition duration-300 shadow-[0_4px_14px_0_rgba(34,197,94,0.39)] hover:shadow-[0_6px_20px_rgba(34,197,94,0.23)] hover:-translate-y-0.5 flex justify-center items-center gap-2">
+                Start Challenge 
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Screen 2: Quiz -->
+    <div id="quiz-screen" class="hidden bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] w-full max-w-2xl overflow-hidden fade-in border-t-[12px] border-green-500 my-8">
+        <div class="p-6 md:p-10">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-100 pb-6 mb-8 gap-4">
+                <div>
+                    <p class="text-green-600 font-bold tracking-widest text-[11px] uppercase mb-1">Interactive Quiz</p>
+                    <h2 class="text-2xl font-extrabold text-slate-800">Reading Comprehension</h2>
+                </div>
+                <div class="text-sm font-bold text-slate-600 bg-slate-50 border border-slate-100 px-4 py-2 rounded-xl flex items-center gap-2">
+                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                    <span id="displayStudentName"></span>
+                </div>
+            </div>
+
+            <form id="quizForm" onsubmit="submitQuiz(event)">
+                
+                <!-- Section 1: Read and Choose -->
+                <div class="mb-10">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                        <span class="bg-green-100 text-green-600 w-8 h-8 rounded-lg flex items-center justify-center text-sm">A</span>
+                        Read and choose
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Q1 -->
+                        <div class="mb-4">
+                            <p class="font-semibold text-slate-700 mb-3 text-lg">1. Which foods are mentioned in the reading?</p>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q1" value="A" class="custom-radio peer sr-only" required>
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">A. Burgers, pizza and ice cream.</span>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q1" value="B" class="custom-radio peer sr-only">
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">B. Rice, fish and noodles.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q2 -->
+                        <div class="mb-4">
+                            <p class="font-semibold text-slate-700 mb-3 text-lg">2. Is pizza similar in Italy and New York?</p>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q2" value="A" class="custom-radio peer sr-only" required>
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">A. No, it is very different.</span>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q2" value="B" class="custom-radio peer sr-only">
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">B. Yes, it tastes similar.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q3 -->
+                        <div class="mb-4">
+                            <p class="font-semibold text-slate-700 mb-3 text-lg">3. What is the most popular soft drink in Peru?</p>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q3" value="A" class="custom-radio peer sr-only" required>
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">A. Coca Cola.</span>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q3" value="B" class="custom-radio peer sr-only">
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">B. Inca Kola.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q4 -->
+                        <div class="mb-4">
+                            <p class="font-semibold text-slate-700 mb-3 text-lg">4. Is Starbucks successful in China?</p>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q4" value="A" class="custom-radio peer sr-only" required>
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">A. Yes, it is.</span>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q4" value="B" class="custom-radio peer sr-only">
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">B. No, it is not.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Q5 -->
+                        <div class="mb-4">
+                            <p class="font-semibold text-slate-700 mb-3 text-lg">5. What is another name for shawarma?</p>
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q5" value="A" class="custom-radio peer sr-only" required>
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">A. Taco.</span>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="q5" value="B" class="custom-radio peer sr-only">
+                                    <div class="p-4 rounded-xl border-2 border-gray-100 hover:border-green-200 transition-colors flex items-center gap-3">
+                                        <div class="radio-dot w-5 h-5 rounded-full border-2 border-gray-300 flex-shrink-0 transition-colors"></div>
+                                        <span class="text-slate-700 font-medium">B. Doner.</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-100 my-8">
+
+                <!-- Section 2: Find the country -->
+                <div class="mb-10">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+                        <span class="bg-green-100 text-green-600 w-8 h-8 rounded-lg flex items-center justify-center text-sm">B</span>
+                        Find the country
+                    </h3>
+                    <p class="text-sm text-slate-500 mb-6 ml-10">Choose a country for each gap. Use each one once.</p>
+
+                    <div class="space-y-4">
+                        <!-- Q6 -->
+                        <div class="flex flex-col sm:flex-row sm:items-center bg-slate-50 p-4 rounded-xl border border-gray-100 gap-4">
+                            <span class="font-semibold text-slate-700 sm:w-1/2">6. Pizza is originally from</span>
+                            <select name="q6" class="border-2 border-gray-200 rounded-lg p-3 flex-grow outline-none focus:border-green-500 focus:ring-4 focus:ring-green-50 transition-all font-medium text-slate-700 bg-white" required>
+                                <option value="" disabled selected>Select country...</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Italy">Italy</option>
+                                <option value="Japan">Japan</option>
+                            </select>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="flex flex-col sm:flex-row sm:items-center bg-slate-50 p-4 rounded-xl border border-gray-100 gap-4">
+                            <span class="font-semibold text-slate-700 sm:w-1/2">7. You can get a shrimp burger in</span>
+                            <select name="q7" class="border-2 border-gray-200 rounded-lg p-3 flex-grow outline-none focus:border-green-500 focus:ring-4 focus:ring-green-50 transition-all font-medium text-slate-700 bg-white" required>
+                                <option value="" disabled selected>Select country...</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Italy">Italy</option>
+                                <option value="Japan">Japan</option>
+                            </select>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="flex flex-col sm:flex-row sm:items-center bg-slate-50 p-4 rounded-xl border border-gray-100 gap-4">
+                            <span class="font-semibold text-slate-700 sm:w-1/2">8. The McArabia is popular in</span>
+                            <select name="q8" class="border-2 border-gray-200 rounded-lg p-3 flex-grow outline-none focus:border-green-500 focus:ring-4 focus:ring-green-50 transition-all font-medium text-slate-700 bg-white" required>
+                                <option value="" disabled selected>Select country...</option>
+                                <option value="Saudi Arabia">Saudi Arabia</option>
+                                <option value="Italy">Italy</option>
+                                <option value="Japan">Japan</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center pt-2">
+                    <button type="submit" class="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-12 rounded-xl transition duration-300 shadow-[0_4px_14px_0_rgba(34,197,94,0.39)] hover:shadow-[0_6px_20px_rgba(34,197,94,0.23)] text-lg flex items-center justify-center gap-2 mx-auto">
+                        Submit Answers
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Screen 3: Certificate -->
+    <div id="cert-screen" class="hidden w-full max-w-sm mx-auto fade-in">
+        
+        <!-- Certificate Container (Perfect for mobile screenshot) -->
+        <div class="bg-white rounded-3xl shadow-[0_20px_50px_rgb(0,0,0,0.1)] relative overflow-hidden border border-gray-100 mb-6 pb-2">
+            
+            <!-- Top Color Banner -->
+            <div class="bg-green-500 h-24 w-full absolute top-0 left-0"></div>
+            
+            <div class="relative pt-8 px-6 pb-6 text-center flex flex-col justify-center items-center">
+                
+                <!-- Icon/Seal -->
+                <div class="bg-white p-3 rounded-full shadow-lg mb-4 mt-2">
+                    <div class="bg-green-50 w-16 h-16 rounded-full flex items-center justify-center border-2 border-green-100">
+                        <svg class="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2l2.4 4.8 5.3.8-3.8 3.7.9 5.3-4.8-2.5-4.8 2.5.9-5.3-3.8-3.7 5.3-.8L12 2z" stroke="#22c55e" stroke-width="1.5" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <p class="text-green-600 font-bold tracking-widest text-[10px] uppercase mb-1">Certificate of Achievement</p>
+                
+                <h2 id="certStudentName" class="cert-font text-3xl font-bold text-slate-800 mb-2 leading-tight">
+                    Student Name
+                </h2>
+
+                <p class="text-slate-500 text-sm mb-6">has successfully completed the quiz</p>
+                
+                <div class="bg-slate-50 rounded-2xl p-4 w-full mb-6 border border-gray-100">
+                    <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Subject</p>
+                    <h3 class="text-lg font-bold text-slate-700">Globalization of Foods</h3>
+                </div>
+
+                <!-- Score Badge -->
+                <div class="flex flex-col items-center mb-8">
+                    <p class="text-slate-400 text-xs font-bold tracking-wider mb-2 uppercase">Final Score</p>
+                    <div class="flex items-baseline gap-1">
+                        <span id="certScore" class="text-5xl font-black text-green-500">8</span>
+                        <span class="text-2xl font-bold text-gray-300">/8</span>
+                    </div>
+                </div>
+
+                <!-- Footer (Teacher & Date) -->
+                <div class="flex justify-between items-center w-full px-2 border-t border-gray-100 pt-4">
+                    <div class="text-left">
+                        <p class="text-slate-400 text-[10px] uppercase font-bold tracking-wider mb-1">Teacher</p>
+                        <p class="text-sm font-bold text-slate-700">Mr. Al-Faifi</p>
+                    </div>
+                    
+                    <div class="text-right">
+                        <p class="text-slate-400 text-[10px] uppercase font-bold tracking-wider mb-1">Date</p>
+                        <p id="certDate" class="text-sm font-bold text-slate-700"></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Outside Certificate Area -->
+        <div class="flex flex-col items-center justify-center space-y-4">
+            <div class="bg-slate-800 text-white text-xs font-medium px-5 py-2.5 rounded-full animate-bounce shadow-lg flex items-center gap-2">
+                📸 <span>التقط صورة للشاشة (Screenshot)</span>
+            </div>
+            <button onclick="location.reload()" class="text-slate-500 hover:text-green-600 font-semibold underline text-sm transition mt-2">
+                ابدأ من جديد
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: 'A',
+            q2: 'B',
+            q3: 'B',
+            q4: 'A',
+            q5: 'B',
+            q6: 'Italy',
+            q7: 'Japan',
+            q8: 'Saudi Arabia'
+        };
+
+        let currentStudentName = "";
+
+        function startQuiz() {
+            const nameInput = document.getElementById('studentName').value.trim();
+            const errorMsg = document.getElementById('nameError');
+            const inputField = document.getElementById('studentName');
+            
+            if (nameInput === "") {
+                errorMsg.classList.remove('hidden');
+                inputField.classList.add('border-red-400', 'focus:border-red-500', 'focus:ring-red-50');
+                inputField.classList.remove('border-gray-200', 'focus:border-green-500', 'focus:ring-green-50');
+            } else {
+                errorMsg.classList.add('hidden');
+                currentStudentName = nameInput;
+                
+                document.getElementById('displayStudentName').innerText = currentStudentName;
+                
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('quiz-screen').classList.remove('hidden');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function submitQuiz(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('quizForm');
+            const formData = new FormData(form);
+            let score = 0;
+
+            for (let [question, correctAnswer] of Object.entries(correctAnswers)) {
+                if (formData.get(question) === correctAnswer) {
+                    score++;
+                }
+            }
+
+            document.getElementById('certStudentName').innerText = currentStudentName;
+            document.getElementById('certScore').innerText = score;
+            
+            const today = new Date();
+            const dateString = today.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+            document.getElementById('certDate').innerText = dateString;
+
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('cert-screen').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>
